@@ -1,6 +1,7 @@
 package kimlamdo.my_project_backend.dao;
 
 import kimlamdo.my_project_backend.entity.Brand;
+import kimlamdo.my_project_backend.entity.Category;
 import kimlamdo.my_project_backend.entity.Order;
 import kimlamdo.my_project_backend.entity.Product;
 import org.springframework.data.domain.Page;
