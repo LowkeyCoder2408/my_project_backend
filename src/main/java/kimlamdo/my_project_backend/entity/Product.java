@@ -42,9 +42,6 @@ public class Product {
     @Column(name = "current_price", nullable = false)
     private int currentPrice;
 
-    @Column(name = "discount_percent")
-    private float discountPercent;
-
     private float length;
 
     private float width;
@@ -67,8 +64,11 @@ public class Product {
             CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH
     })
-    @JoinColumn(name = "brand_id")
+    @JoinColumn(nullable = false, name = "brand_id")
     private Brand brand;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductColor> colors = new ArrayList<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductImage> images = new ArrayList<>();
@@ -77,6 +77,8 @@ public class Product {
     private List<ProductDetail> details = new ArrayList<>();
 
     private int reviewCount;
+
+    private int ratingCount;
 
     private float averageRating;
 

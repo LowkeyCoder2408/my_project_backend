@@ -22,4 +22,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Query("SELECT p FROM Product p WHERE p.currentPrice BETWEEN :minPrice AND :maxPrice")
     Page<Product> findByCurrentPriceBetween(@RequestParam("minPrice") int minPrice, @RequestParam("maxPrice") int maxPrice, Pageable pageable);
+
+    Product findByAlias(@RequestParam("productAlias") String productAlias);
 }

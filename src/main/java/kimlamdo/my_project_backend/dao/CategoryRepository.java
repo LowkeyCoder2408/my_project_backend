@@ -15,4 +15,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
     @Query("SELECT c.brands FROM Category c WHERE c.id = :categoryId")
     Page<Brand> findBrandsById(@RequestParam("categoryId") int categoryId, Pageable pageable);
+
 }
