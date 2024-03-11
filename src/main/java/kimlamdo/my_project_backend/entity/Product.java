@@ -33,8 +33,8 @@ public class Product {
 
     private boolean enabled;
 
-    @Column(name = "is_in_stock")
-    private boolean isInStock;
+    @Column(name = "quantity")
+    private int quantity;
 
     @Column(name = "listed_price", nullable = false)
     private int listedPrice;
@@ -67,8 +67,8 @@ public class Product {
     @JoinColumn(nullable = false, name = "brand_id")
     private Brand brand;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductColor> colors = new ArrayList<>();
+//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<ProductColor> colors = new ArrayList<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductImage> images = new ArrayList<>();
