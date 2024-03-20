@@ -20,10 +20,16 @@ public class Endpoints {
 
     public static final String[] PUBLIC_POST_ENDPOINTS = {
             "/account/register",
+            "/account/login",
     };
 
     public static final String[] ADMIN_GET_ENDPOINTS = {
             "/user",
             "/user/**",
+    };
+
+    public static final String[] ADMIN_POST_ENDPOINTS = {
+            "/product",
+            "/product/**",
     };
 }
