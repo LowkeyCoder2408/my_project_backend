@@ -19,6 +19,8 @@ public class Endpoints {
     };
 
     public static final String[] PUBLIC_POST_ENDPOINTS = {
+            "/review",
+            "/review/**",
             "/account/register",
             "/account/login",
     };
@@ -31,5 +33,12 @@ public class Endpoints {
     public static final String[] ADMIN_POST_ENDPOINTS = {
             "/product",
             "/product/**",
+            "/brand/",
+            "/brand/**"
+    };
+
+    public static final String[] ADMIN_DELETE_ENDPOINTS = {
+            "/review",
+            "/review/**",
     };
 }

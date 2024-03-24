@@ -64,27 +64,15 @@ public class Product {
             CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH
     })
-    @JoinColumn(nullable = false, name = "brand_id")
+    @JoinColumn(name = "brand_id")
     private Brand brand;
-
-//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<ProductColor> colors = new ArrayList<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductImage> images = new ArrayList<>();
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductDetail> details = new ArrayList<>();
 
     private int reviewCount;
 
     private int ratingCount;
 
     private float averageRating;
-
-    @Transient
-    private boolean customerCanReview;
-
-    @Transient
-    private boolean reviewByCustomer;
 }
