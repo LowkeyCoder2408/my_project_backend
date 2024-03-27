@@ -6,6 +6,8 @@ public class Endpoints {
     public static final String[] PUBLIC_GET_ENDPOINTS = {
             "/product",
             "/product/**",
+            "/product-image",
+            "/product-image/**",
             "/brand",
             "/brand/**",
             "/category",
@@ -28,6 +30,8 @@ public class Endpoints {
     public static final String[] ADMIN_GET_ENDPOINTS = {
             "/user",
             "/user/**",
+            "/customer",
+            "/customer/**",
     };
 
     public static final String[] ADMIN_POST_ENDPOINTS = {

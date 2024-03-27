@@ -42,6 +42,9 @@ public class Product {
     @Column(name = "current_price", nullable = false)
     private int currentPrice;
 
+    @Column(name = "discount_percent")
+    private int discountPercent;
+
     private float length;
 
     private float width;

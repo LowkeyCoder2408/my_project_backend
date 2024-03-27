@@ -1,7 +1,7 @@
 package kimlamdo.my_project_backend.security;
 
 import kimlamdo.my_project_backend.filter.JwtFilter;
-import kimlamdo.my_project_backend.service.UserService;
+import kimlamdo.my_project_backend.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,9 +31,9 @@ public class SecurityConfiguration {
 
     @Bean
     @Autowired
-    public DaoAuthenticationProvider authenticationProvider(UserService userService) {
+    public DaoAuthenticationProvider authenticationProvider(CustomerService customerService) {
         DaoAuthenticationProvider dap = new DaoAuthenticationProvider();
-        dap.setUserDetailsService(userService);
+        dap.setUserDetailsService(customerService);
         dap.setPasswordEncoder(passwordEncoder());
         return dap;
     }

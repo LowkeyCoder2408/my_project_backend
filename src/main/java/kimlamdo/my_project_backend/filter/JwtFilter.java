@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kimlamdo.my_project_backend.service.CustomerService;
 import kimlamdo.my_project_backend.service.JwtService;
 import kimlamdo.my_project_backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Collections;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -22,7 +24,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private JwtService jwtService;
 
     @Autowired
-    private UserService userDetailService;
+    private CustomerService customerDetailService;
 
     public JwtFilter() {
     }
@@ -45,12 +47,12 @@ public class JwtFilter extends OncePerRequestFilter {
         // Kiểm tra xem email có tồn tại và người dùng chưa được xác thực
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             // Tải thông tin người dùng từ cơ sở dữ liệu bằng email
-            UserDetails userDetails = userDetailService.loadUserByUsername(email);
+            UserDetails customerDetails = customerDetailService.loadUserByUsername(email);
 
             // Kiểm tra tính hợp lệ của token và người dùng
-            if (jwtService.validateToken(token, userDetails)) {
-                // Tạo đối tượng UsernamePasswordAuthenticationToken với thông tin người dùng, không cần mật khẩu, và các quyền hạn
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            if (jwtService.validateToken(token, customerDetails)) {
+                // Tạo đối tượng UsernamePasswordAuthenticationToken mà không có quyền hạn
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(customerDetails, null, Collections.emptyList());
                 // Thiết lập chi tiết xác thực từ WebAuthenticationDetails
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
@@ -60,4 +62,5 @@ public class JwtFilter extends OncePerRequestFilter {
         // Tiếp tục chuỗi filter
         filterChain.doFilter(request, response);
     }
+
 }
