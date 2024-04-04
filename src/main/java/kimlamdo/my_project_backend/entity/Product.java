@@ -53,6 +53,9 @@ public class Product {
 
     private float weight;
 
+    @Column(name = "operating_system")
+    private String operatingSystem;
+
     @Column(name = "main_image", nullable = false)
     private String mainImage;
 

@@ -1,12 +1,11 @@
-package kimlamdo.my_project_backend.filter;
+package kimlamdo.my_project_backend.service.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import kimlamdo.my_project_backend.service.CustomerService;
-import kimlamdo.my_project_backend.service.JwtService;
-import kimlamdo.my_project_backend.service.UserService;
+import kimlamdo.my_project_backend.service.customer.CustomerService;
+import kimlamdo.my_project_backend.service.jwt.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

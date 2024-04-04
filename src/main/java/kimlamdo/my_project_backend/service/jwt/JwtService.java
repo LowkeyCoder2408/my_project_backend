@@ -1,4 +1,4 @@
-package kimlamdo.my_project_backend.service;
+package kimlamdo.my_project_backend.service.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

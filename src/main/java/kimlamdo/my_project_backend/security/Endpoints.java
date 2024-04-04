@@ -25,6 +25,8 @@ public class Endpoints {
             "/review/**",
             "/account/register",
             "/account/login",
+            "/product",
+            "/product/**",
     };
 
     public static final String[] ADMIN_GET_ENDPOINTS = {
@@ -35,8 +37,8 @@ public class Endpoints {
     };
 
     public static final String[] ADMIN_POST_ENDPOINTS = {
-            "/product",
-            "/product/**",
+//            "/product",
+//            "/product/**",
             "/brand/",
             "/brand/**"
     };

@@ -1,4 +1,4 @@
-package kimlamdo.my_project_backend.service;
+package kimlamdo.my_project_backend.service.customer;
 
 import kimlamdo.my_project_backend.entity.Customer;
 import kimlamdo.my_project_backend.entity.User;

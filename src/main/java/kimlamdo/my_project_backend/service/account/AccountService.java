@@ -1,9 +1,10 @@
-package kimlamdo.my_project_backend.service;
+package kimlamdo.my_project_backend.service.account;
 
 import kimlamdo.my_project_backend.dao.CustomerRepository;
 import kimlamdo.my_project_backend.dao.UserRepository;
 import kimlamdo.my_project_backend.entity.Customer;
 import kimlamdo.my_project_backend.entity.Notification;
+import kimlamdo.my_project_backend.service.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

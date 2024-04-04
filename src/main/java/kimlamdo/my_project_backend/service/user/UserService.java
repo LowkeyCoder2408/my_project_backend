@@ -1,4 +1,4 @@
-package kimlamdo.my_project_backend.service;
+package kimlamdo.my_project_backend.service.user;
 
 import kimlamdo.my_project_backend.entity.User;
 import org.springframework.security.core.userdetails.UserDetailsService;

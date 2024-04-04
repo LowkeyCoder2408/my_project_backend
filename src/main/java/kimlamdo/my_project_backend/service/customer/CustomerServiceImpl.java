@@ -1,20 +1,14 @@
-package kimlamdo.my_project_backend.service;
+package kimlamdo.my_project_backend.service.customer;
 
 import kimlamdo.my_project_backend.dao.CustomerRepository;
-import kimlamdo.my_project_backend.dao.UserRepository;
-import kimlamdo.my_project_backend.dao.RoleRepository;
-import kimlamdo.my_project_backend.entity.Role;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import kimlamdo.my_project_backend.service.customer.CustomerService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.Collections;
-import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {

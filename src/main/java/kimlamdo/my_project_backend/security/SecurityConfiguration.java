@@ -1,7 +1,7 @@
 package kimlamdo.my_project_backend.security;
 
-import kimlamdo.my_project_backend.filter.JwtFilter;
-import kimlamdo.my_project_backend.service.CustomerService;
+import kimlamdo.my_project_backend.service.jwt.JwtFilter;
+import kimlamdo.my_project_backend.service.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
