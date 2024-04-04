@@ -1,7 +1,6 @@
 package kimlamdo.my_project_backend.service.customer;
 
 import kimlamdo.my_project_backend.dao.CustomerRepository;
-import kimlamdo.my_project_backend.service.customer.CustomerService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,11 +10,11 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 
 @Service
-public class CustomerServiceImpl implements CustomerService {
+public class CustomerSecurityServiceImpl implements CustomerSecurityService {
     private CustomerRepository customerRepository;
 
     @Autowired
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
+    public CustomerSecurityServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 

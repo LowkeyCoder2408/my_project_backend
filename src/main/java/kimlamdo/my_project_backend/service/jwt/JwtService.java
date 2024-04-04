@@ -5,6 +5,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import kimlamdo.my_project_backend.entity.Customer;
+import kimlamdo.my_project_backend.service.customer.CustomerSecurityService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -19,11 +22,18 @@ public class JwtService {
     // Khóa bí mật (sử dụng để ký và xác minh JWT), dùng để làm ra tokens => cung cấp cho users bên FE để dùng
     public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
 
+    @Autowired
+    private CustomerSecurityService customerSecurityService;
+
     // Tạo JWT dựa trên email
     public String generateToken(String email) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("isAdmin", true);
-        claims.put("x", "ABC");
+        Customer customer = customerSecurityService.findByEmail(email);
+        claims.put("id", customer.getId());
+        claims.put("avatar", customer.getAvatar());
+        claims.put("fullName", customer.getFullName());
+        claims.put("enabled", customer.isEnabled());
+        claims.put("role", "Khách hàng");
         return createToken(claims, email);
     }
 
@@ -34,7 +44,9 @@ public class JwtService {
                 .setSubject(email)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 // JWT hết hạn sau 30p
-                .setExpiration(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
+//                .setExpiration(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
+                // JWT hết hạn sau 100000h
+                .setExpiration(new Date(System.currentTimeMillis() + 100000L * 60 * 60 * 1000))
                 .signWith(SignatureAlgorithm.HS256, getSigningKey())
                 .compact();
     }

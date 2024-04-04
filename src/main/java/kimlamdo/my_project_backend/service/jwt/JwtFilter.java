@@ -4,8 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import kimlamdo.my_project_backend.service.customer.CustomerService;
-import kimlamdo.my_project_backend.service.jwt.JwtService;
+import kimlamdo.my_project_backend.service.customer.CustomerSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +22,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private JwtService jwtService;
 
     @Autowired
-    private CustomerService customerDetailService;
+    private CustomerSecurityService customerDetailService;
 
     public JwtFilter() {
     }

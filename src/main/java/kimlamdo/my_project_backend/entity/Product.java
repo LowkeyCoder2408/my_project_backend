@@ -36,6 +36,10 @@ public class Product {
     @Column(name = "quantity")
     private int quantity;
 
+
+    @Column(name = "soldQuantity")
+    private int soldQuantity;
+
     @Column(name = "listed_price", nullable = false)
     private int listedPrice;
 

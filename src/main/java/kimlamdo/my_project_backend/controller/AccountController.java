@@ -4,7 +4,7 @@ import kimlamdo.my_project_backend.entity.Customer;
 import kimlamdo.my_project_backend.security.JwtResponse;
 import kimlamdo.my_project_backend.security.LoginRequest;
 import kimlamdo.my_project_backend.service.account.AccountService;
-import kimlamdo.my_project_backend.service.customer.CustomerService;
+import kimlamdo.my_project_backend.service.customer.CustomerSecurityService;
 import kimlamdo.my_project_backend.service.jwt.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ public class AccountController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private CustomerService customerService;
+    private CustomerSecurityService customerService;
 
     @Autowired
     private JwtService jwtService;
