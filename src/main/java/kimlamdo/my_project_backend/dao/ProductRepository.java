@@ -33,4 +33,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     // Tìm kiếm theo 3 yếu tố
     Page<Product> findByNameContainingAndCategory_IdAndCurrentPriceBetween(@RequestParam("productName") String productName, @RequestParam("categoryId") int categoryId, @RequestParam("minPrice") double minPrice, @RequestParam("maxPrice") double maxPrice, Pageable pageable);
+
+    @Query("SELECT p FROM Product p ORDER BY (p.listedPrice - p.currentPrice) DESC")
+    Page<Product> findProductsByPriceDifferencePrice(Pageable pageable);
 }

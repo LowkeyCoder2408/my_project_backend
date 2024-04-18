@@ -12,6 +12,8 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @RepositoryRestResource(path = "brand")
 public interface BrandRepository extends JpaRepository<Brand, Integer> {
     @Query("SELECT b FROM Brand b WHERE b.id = :brandId")
