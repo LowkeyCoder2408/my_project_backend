@@ -36,6 +36,11 @@ public class Endpoints {
             "/cart-item/**",
     };
 
+    public static final String[] PUBLIC_DELETE_ENDPOINTS = {
+            "/cart-item",
+            "/cart-item/**",
+    };
+
     public static final String[] ADMIN_GET_ENDPOINTS = {
 //            "/user",
 //            "/user/**",
