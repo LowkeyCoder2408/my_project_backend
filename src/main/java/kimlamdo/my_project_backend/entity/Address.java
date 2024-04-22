@@ -11,15 +11,6 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "full_name", nullable = false, length = 45)
-    private String fullName;
-
-    @Column(name = "phone_number", nullable = false, length = 15)
-    private String phoneNumber;
-
-    @Column(name = "email", nullable = false, length = 50)
-    private String email;
-
     @Column(name = "address_line", nullable = false, length = 64)
     private String addressLine;
 
