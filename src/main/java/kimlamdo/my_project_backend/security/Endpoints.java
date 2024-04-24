@@ -26,6 +26,9 @@ public class Endpoints {
             "/province/**",
             "/district",
             "/district/**",
+            "/address",
+            "/address/**",
+            "/api/payment/**",
     };
 
     public static final String[] PUBLIC_POST_ENDPOINTS = {
@@ -35,6 +38,7 @@ public class Endpoints {
             "/account/login",
             "/cart-item",
             "/cart-item/**",
+            "/api/payment/create-payment/**",
     };
 
     public static final String[] PUBLIC_PUT_ENDPOINTS = {
