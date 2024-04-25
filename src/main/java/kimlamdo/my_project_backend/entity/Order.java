@@ -21,7 +21,7 @@ public class Order {
     @Column(name = "phone_number", nullable = false, length = 15)
     private String phoneNumber;
 
-    @Column(name = "email", nullable = false, length = 15)
+    @Column(name = "email", nullable = false, length = 64)
     private String email;
 
     @Column(name = "address_line", nullable = false, length = 64)
@@ -53,9 +53,9 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    @OrderBy("updatedTime ASC")
-    private List<OrderTrack> orderTracks = new ArrayList<>();
+//    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @OrderBy("updatedTime ASC")
+//    private List<OrderTrack> orderTracks = new ArrayList<>();
 
     @Column(columnDefinition = "TEXT")
     private String note;

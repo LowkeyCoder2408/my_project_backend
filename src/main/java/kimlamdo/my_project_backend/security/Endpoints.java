@@ -28,7 +28,8 @@ public class Endpoints {
             "/district/**",
             "/address",
             "/address/**",
-            "/api/payment/**",
+            "/payment/**",
+            "/payment/payment-info/**",
     };
 
     public static final String[] PUBLIC_POST_ENDPOINTS = {
@@ -38,7 +39,11 @@ public class Endpoints {
             "/account/login",
             "/cart-item",
             "/cart-item/**",
-            "/api/payment/create-payment/**",
+            "/payment/create-payment/**",
+            "/order",
+            "/order/**",
+            "/order-detail",
+            "/order-detail/**",
     };
 
     public static final String[] PUBLIC_PUT_ENDPOINTS = {

@@ -12,5 +12,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RepositoryRestResource(path = "province")
 public interface ProvinceRepository extends JpaRepository<Province, Integer> {
     // Tìm kiếm theo 1 yếu tố
-    Page<Province> findByNameContaining(@RequestParam("provinceName") String provinceName, Pageable pageable);
+//    Page<Province> findByNameContaining(@RequestParam("provinceName") String provinceName, Pageable pageable);
 }

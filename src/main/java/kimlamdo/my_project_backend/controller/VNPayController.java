@@ -1,14 +1,10 @@
 package kimlamdo.my_project_backend.controller;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import kimlamdo.my_project_backend.config.VNPayConfig;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -16,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api/payment")
+@RequestMapping("/payment")
 @CrossOrigin("*")
 public class VNPayController {
     @PostMapping("/create-payment")
@@ -60,11 +56,10 @@ public class VNPayController {
             String fieldName = (String) itr.next();
             String fieldValue = (String) vnp_Params.get(fieldName);
             if ((fieldValue != null) && (fieldValue.length() > 0)) {
-                //Build hash data
                 hashData.append(fieldName);
                 hashData.append('=');
                 hashData.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII.toString()));
-                //Build query
+
                 query.append(URLEncoder.encode(fieldName, StandardCharsets.US_ASCII.toString()));
                 query.append('=');
                 query.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII.toString()));
@@ -78,12 +73,11 @@ public class VNPayController {
         String vnp_SecureHash = VNPayConfig.hmacSHA512(VNPayConfig.secretKey, hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         String paymentUrl = VNPayConfig.vnp_PayUrl + "?" + queryUrl;
-        System.out.println(paymentUrl);
 
         return ResponseEntity.status(HttpStatus.OK).body(paymentUrl);
     }
 
-    @GetMapping("/payment_info")
+    @GetMapping("/payment-info")
     public ResponseEntity<?> paymentSuccess(@RequestParam(value = "vnp_ResponseCode") String status) {
         if (status.equals("00")) {
             return ResponseEntity.ok("redirect:/success");
