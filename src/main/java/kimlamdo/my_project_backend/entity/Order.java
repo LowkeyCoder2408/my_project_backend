@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Data
@@ -36,7 +37,7 @@ public class Order {
     @Column(nullable = false, length = 45)
     private String ward;
 
-    private Date orderTime;
+    private LocalDateTime orderTime;
 
     private int total;
 

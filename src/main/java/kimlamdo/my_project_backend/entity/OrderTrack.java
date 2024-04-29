@@ -3,10 +3,7 @@ package kimlamdo.my_project_backend.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime; // Import thêm
 
 @Data
 @Entity
@@ -19,7 +16,7 @@ public class OrderTrack {
     @Column(length = 256)
     private String notes;
 
-    private Date updatedTime;
+    private LocalDateTime updatedTime;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 45, nullable = false)

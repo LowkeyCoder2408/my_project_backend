@@ -4,6 +4,8 @@ public class Endpoints {
     public static final String front_end_host = "http://localhost:3000";
 
     public static final String[] PUBLIC_GET_ENDPOINTS = {
+            "/order",
+            "/order/**",
             "/cart-item",
             "/cart-item/**",
             "/customer",
@@ -30,6 +32,8 @@ public class Endpoints {
             "/address/**",
             "/payment/**",
             "/payment/payment-info/**",
+            "review",
+            "review/**"
     };
 
     public static final String[] PUBLIC_POST_ENDPOINTS = {
@@ -44,6 +48,8 @@ public class Endpoints {
             "/order/**",
             "/order-detail",
             "/order-detail/**",
+            "review/**",
+            "review",
     };
 
     public static final String[] PUBLIC_PUT_ENDPOINTS = {

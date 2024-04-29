@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -21,6 +19,10 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
     @Autowired
     private OrderDetailRepository orderDetailRepository;
+
+    @Autowired
+    private OrderTrackRepository orderTrackRepository;
+
     @Autowired
     private CustomerRepository customerRepository;
 
@@ -52,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
             Optional<District> district = districtRepository.findById(districtId);
             orderData.setDistrict(district.get().getName());
 
-            orderData.setOrderTime(Date.valueOf(LocalDate.now()));
+            orderData.setOrderTime(LocalDateTime.now());
 
             int provinceId = Integer.parseInt(formatStringByJson(String.valueOf(jsonData.get("provinceId"))));
             Optional<Province> province = provinceRepository.findById(provinceId);
@@ -94,6 +96,13 @@ public class OrderServiceImpl implements OrderService {
                 orderDetailRepository.save(orderDetail);
                 productRepository.save(product.get());
             }
+
+            OrderTrack orderTrack = new OrderTrack();
+            orderTrack.setNotes(orderData.getNote());
+            orderTrack.setOrder(orderData);
+            orderTrack.setStatus(orderData.getStatus());
+            orderTrack.setUpdatedTime(orderData.getOrderTime());
+            orderTrackRepository.save(orderTrack);
 
             cartItemRepository.deleteAllCartItemsByCustomerId(customer.get().getId());
         } catch (Exception e) {
