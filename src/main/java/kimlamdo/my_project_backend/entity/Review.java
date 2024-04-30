@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -15,8 +16,8 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(length = 128, nullable = false)
-    private String headline;
+//    @Column(length = 128, nullable = false)
+//    private String headline;
 
     @Column(length = 300, nullable = false)
     private String comment;
@@ -24,7 +25,7 @@ public class Review {
     private int rating;
 
     @Column(nullable = false)
-    private Date reviewTime;
+    private LocalDateTime reviewTime;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

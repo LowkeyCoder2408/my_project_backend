@@ -22,12 +22,12 @@ public class MethodRestConfig implements RepositoryRestConfigurer {
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
         config.exposeIdsFor(entityManager.getMetamodel().getEntities().stream().map(Type::getJavaType).toArray(Class[]::new));
-        // config.exposeIdsFor(Category.class);
+         config.exposeIdsFor(Category.class);
 
         // CORS configuration
-//        cors.addMapping("/**")
-//                .allowedOrigins(url)
-//                .allowedMethods("GET", "POST", "PUT", "DELETE");
+        cors.addMapping("/**")
+                .allowedOrigins(url)
+                .allowedMethods("GET", "POST", "PUT", "DELETE");
 
 //        HttpMethod[] disabledMethods = {
 //                HttpMethod.POST,

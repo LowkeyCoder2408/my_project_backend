@@ -80,8 +80,6 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductImage> images = new ArrayList<>();
 
-    private int reviewCount;
-
     private int ratingCount;
 
     private float averageRating;

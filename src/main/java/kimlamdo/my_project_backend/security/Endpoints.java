@@ -32,13 +32,11 @@ public class Endpoints {
             "/address/**",
             "/payment/**",
             "/payment/payment-info/**",
-            "review",
-            "review/**"
+            "/review",
+            "/review/**",
     };
 
     public static final String[] PUBLIC_POST_ENDPOINTS = {
-            "/review",
-            "/review/**",
             "/account/register",
             "/account/login",
             "/cart-item",
@@ -48,18 +46,22 @@ public class Endpoints {
             "/order/**",
             "/order-detail",
             "/order-detail/**",
-            "review/**",
-            "review",
+            "/review/**",
+            "/review",
     };
 
     public static final String[] PUBLIC_PUT_ENDPOINTS = {
             "/cart-item",
             "/cart-item/**",
+            "/review/**",
+            "/review",
     };
 
     public static final String[] PUBLIC_DELETE_ENDPOINTS = {
             "/cart-item",
             "/cart-item/**",
+            "/review",
+            "/review/**",
     };
 
     public static final String[] ADMIN_GET_ENDPOINTS = {
@@ -73,7 +75,8 @@ public class Endpoints {
 //            "/product",
 //            "/product/**",
             "/brand/",
-            "/brand/**"
+            "/brand/**",
+
     };
 
     public static final String[] ADMIN_DELETE_ENDPOINTS = {
