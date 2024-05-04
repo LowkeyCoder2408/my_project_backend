@@ -113,7 +113,7 @@ public class ReviewServiceImpl implements ReviewService {
             System.out.println(productId);
 
             if (product.getRatingCount() > 1) {
-                product.setAverageRating((product.getAverageRating() * product.getRatingCount() - reviewData.getRating()) / (product.getRatingCount() - 1));
+                product.setAverageRating((product.getAverageRating() * product.getRatingCount() - review.getRating()) / (product.getRatingCount() - 1));
                 product.setRatingCount(product.getRatingCount() - 1);
             } else {
                 product.setAverageRating(0);
