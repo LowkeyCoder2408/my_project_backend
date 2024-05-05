@@ -8,12 +8,12 @@ public enum OrderStatus {
         }
     },
 
-    CANCELED {
-        @Override
-        public String defaultDescription() {
-            return "Đơn hàng đã bị hủy";
-        }
-    },
+//    CANCELED {
+//        @Override
+//        public String defaultDescription() {
+//            return "Đơn hàng đã bị hủy";
+//        }
+//    },
 
     PROCESSING {
         @Override
