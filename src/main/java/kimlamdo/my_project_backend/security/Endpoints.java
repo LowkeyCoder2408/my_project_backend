@@ -8,6 +8,8 @@ public class Endpoints {
             "/order/**",
             "/order-detail",
             "/order-detail/**",
+            "/order-track",
+            "/order-track/**",
             "/cart-item",
             "/cart-item/**",
             "/customer",

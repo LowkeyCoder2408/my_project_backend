@@ -54,10 +54,6 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-//    @OrderBy("updatedTime ASC")
-//    private List<OrderTrack> orderTracks = new ArrayList<>();
-
     @Column(columnDefinition = "TEXT")
     private String note;
 }
