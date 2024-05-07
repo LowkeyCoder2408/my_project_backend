@@ -42,6 +42,6 @@ public class Address {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-//    @Column(name="is_default_address")
-//    private boolean isDefaultAddress;
+    @Column(name="is_default_address")
+    private boolean isDefaultAddress;
 }

@@ -27,6 +27,9 @@ public class OrderServiceImpl implements OrderService {
     private CustomerRepository customerRepository;
 
     @Autowired
+    private AddressRepository addressRepository;
+
+    @Autowired
     private DistrictRepository districtRepository;
 
     @Autowired
@@ -95,6 +98,23 @@ public class OrderServiceImpl implements OrderService {
                 orderDetail.setSubtotal(soldQuantity * product.get().getCurrentPrice());
                 orderDetailRepository.save(orderDetail);
                 productRepository.save(product.get());
+            }
+
+            boolean isDefaultAddress = jsonData.get("isDefaultAddress").asBoolean();
+            boolean isUseDefaultAddress = jsonData.get("isUseDefaultAddress").asBoolean();
+
+            if (!isUseDefaultAddress) {
+                Address addressData = new Address();
+                addressData.setAddressLine(orderData.getAddressLine());
+                if (isDefaultAddress == true) {
+                    addressRepository.updateIsDefaultAddress();
+                }
+                addressData.setDefaultAddress(isDefaultAddress);
+                addressData.setProvince(province.get());
+                addressData.setDistrict(district.get());
+                addressData.setWard(ward.get());
+                addressData.setCustomer(customer.get());
+                addressRepository.save(addressData);
             }
 
             OrderTrack orderTrack = new OrderTrack();
