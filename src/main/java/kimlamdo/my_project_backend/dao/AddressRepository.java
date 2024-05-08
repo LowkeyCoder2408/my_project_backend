@@ -1,8 +1,7 @@
 package kimlamdo.my_project_backend.dao;
 
 import jakarta.transaction.Transactional;
-import kimlamdo.my_project_backend.entity.Address;
-import kimlamdo.my_project_backend.entity.Order;
+import kimlamdo.my_project_backend.entity.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @RepositoryRestResource(path = "address")
 public interface AddressRepository extends JpaRepository<Address, Integer> {
@@ -25,4 +25,6 @@ public interface AddressRepository extends JpaRepository<Address, Integer> {
     public void updateIsDefaultAddress();
 
     Page<Address> findByIsDefaultAddressTrueAndCustomer_id(@RequestParam("customerId") Integer customerId, Pageable pageable);
+
+    Optional<Address> findByAddressLineAndProvinceAndDistrictAndWardAndCustomer(String addressLine, Province province, District district, Ward ward, Customer customer);
 }

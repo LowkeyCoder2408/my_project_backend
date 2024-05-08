@@ -3,6 +3,8 @@ package kimlamdo.my_project_backend.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Objects;
+
 @Data
 @Entity
 @Table(name = "address")
@@ -42,6 +44,17 @@ public class Address {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @Column(name="is_default_address")
+    @Column(name = "is_default_address")
     private boolean isDefaultAddress;
+
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        return Objects.equals(addressLine, address.addressLine) &&
+               Objects.equals(province, address.province) &&
+               Objects.equals(district, address.district) &&
+               Objects.equals(ward, address.ward) &&
+               Objects.equals(customer, address.customer);
+    }
 }

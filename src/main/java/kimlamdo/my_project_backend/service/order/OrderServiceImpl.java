@@ -89,7 +89,7 @@ public class OrderServiceImpl implements OrderService {
                 Product productResponse = objectMapper.treeToValue(node.get("product"), Product.class);
                 Optional<Product> product = productRepository.findById(productResponse.getId());
                 product.get().setQuantity(product.get().getQuantity() - soldQuantity);
-                product.get().setSoldQuantity(soldQuantity);
+                product.get().setSoldQuantity(product.get().getSoldQuantity() + soldQuantity);
 
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.setProduct(product.get());
@@ -104,17 +104,37 @@ public class OrderServiceImpl implements OrderService {
             boolean isUseDefaultAddress = jsonData.get("isUseDefaultAddress").asBoolean();
 
             if (!isUseDefaultAddress) {
-                Address addressData = new Address();
-                addressData.setAddressLine(orderData.getAddressLine());
-                if (isDefaultAddress == true) {
-                    addressRepository.updateIsDefaultAddress();
+                Optional<Address> existingAddress = addressRepository.findByAddressLineAndProvinceAndDistrictAndWardAndCustomer(
+                        orderData.getAddressLine(),
+                        province.get(),
+                        district.get(),
+                        ward.get(),
+                        customer.get()
+                );
+
+                if (existingAddress.isPresent()) {
+                    // Đã tồn tại một địa chỉ giống nhau trong cơ sở dữ liệu
+                    // Thực hiện các hành động cần thiết, ví dụ: cập nhật thông tin
+                    if (isDefaultAddress == true) {
+                        addressRepository.updateIsDefaultAddress();
+                    }
+                    Address existing = existingAddress.get();
+                    existing.setDefaultAddress(isDefaultAddress);
+                    // Cập nhật thông tin khác nếu cần
+                    addressRepository.save(existing);
+                } else {
+                    Address addressData = new Address();
+                    addressData.setAddressLine(orderData.getAddressLine());
+                    if (isDefaultAddress == true) {
+                        addressRepository.updateIsDefaultAddress();
+                    }
+                    addressData.setDefaultAddress(isDefaultAddress);
+                    addressData.setProvince(province.get());
+                    addressData.setDistrict(district.get());
+                    addressData.setWard(ward.get());
+                    addressData.setCustomer(customer.get());
+                    addressRepository.save(addressData);
                 }
-                addressData.setDefaultAddress(isDefaultAddress);
-                addressData.setProvince(province.get());
-                addressData.setDistrict(district.get());
-                addressData.setWard(ward.get());
-                addressData.setCustomer(customer.get());
-                addressRepository.save(addressData);
             }
 
             OrderTrack orderTrack = new OrderTrack();
