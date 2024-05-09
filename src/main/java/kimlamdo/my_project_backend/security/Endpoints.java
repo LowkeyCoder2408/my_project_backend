@@ -38,6 +38,8 @@ public class Endpoints {
             "/payment/payment-info/**",
             "/review",
             "/review/**",
+            "/favorite-product",
+            "/favorite-product/**",
     };
 
     public static final String[] PUBLIC_POST_ENDPOINTS = {
@@ -52,6 +54,8 @@ public class Endpoints {
             "/order-detail/**",
             "/review/**",
             "/review",
+            "/favorite-product",
+            "/favorite-product/**",
     };
 
     public static final String[] PUBLIC_PUT_ENDPOINTS = {
@@ -66,6 +70,8 @@ public class Endpoints {
             "/cart-item/**",
             "/review",
             "/review/**",
+            "/favorite-product",
+            "/favorite-product/**",
     };
 
     public static final String[] ADMIN_GET_ENDPOINTS = {
