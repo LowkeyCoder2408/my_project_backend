@@ -6,15 +6,15 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import kimlamdo.my_project_backend.entity.Customer;
+import kimlamdo.my_project_backend.entity.User;
 import kimlamdo.my_project_backend.service.customer.CustomerSecurityService;
+import kimlamdo.my_project_backend.service.user.UserSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Component
@@ -25,15 +25,28 @@ public class JwtService {
     @Autowired
     private CustomerSecurityService customerSecurityService;
 
+    @Autowired
+    private UserSecurityService userSecurityService;
+
     // Tạo JWT dựa trên email
     public String generateToken(String email) {
         Map<String, Object> claims = new HashMap<>();
+        List<String> roles = new ArrayList<>();
         Customer customer = customerSecurityService.findByEmail(email);
-        claims.put("id", customer.getId());
-        claims.put("avatar", customer.getAvatar());
-        claims.put("fullName", customer.getFullName());
-        claims.put("enabled", customer.isEnabled());
-        claims.put("role", "Khách hàng");
+        if (customer != null) {
+            claims.put("id", customer.getId());
+            claims.put("avatar", customer.getAvatar());
+            claims.put("fullName", customer.getFullName());
+            claims.put("enabled", customer.isEnabled());
+            roles.add("Khách hàng");
+        }
+        User user = userSecurityService.findByEmail(email);
+        if (user != null) {
+            roles.add(user.getRole().getName());
+        }
+        if (!roles.isEmpty()) {
+            claims.put("roles", roles);
+        }
         return createToken(claims, email);
     }
 
