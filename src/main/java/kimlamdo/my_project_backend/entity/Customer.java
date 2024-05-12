@@ -45,6 +45,10 @@ public class Customer {
     @Column(name = "authentication_type", length = 10)
     private AuthenticationType authenticationType;
 
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
+
     public Integer getId() {
         return id;
     }

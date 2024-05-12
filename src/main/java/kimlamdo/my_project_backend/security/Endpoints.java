@@ -38,6 +38,8 @@ public class Endpoints {
             "/payment/payment-info/**",
             "/review",
             "/review/**",
+            "/user",
+            "/user/**",
             "/favorite-product",
             "/favorite-product/**",
     };
@@ -74,22 +76,27 @@ public class Endpoints {
             "/favorite-product/**",
     };
 
-    public static final String[] ADMIN_GET_ENDPOINTS = {
-//            "/user",
-//            "/user/**",
+    public static final String[] ADMIN_ENDPOINTS = {
+            "/user",
+            "/user/**",
+            "/cart-item/**",
+            "/product",
+            "/product/**",
+            "/product/add-product/**",
+            "/user/add-user/**",
+            "/cart-item/**",
+            "/cart-item",
+            "/order/**",
+            "/order",
+            "/order-detail/**",
+            "/role/**",
+            "/favorite-product/**",
+            "/review/**",
+            "/**",
             "/customer",
             "/customer/**",
-    };
-
-    public static final String[] ADMIN_POST_ENDPOINTS = {
-//            "/product",
-//            "/product/**",
             "/brand/",
             "/brand/**",
-
-    };
-
-    public static final String[] ADMIN_DELETE_ENDPOINTS = {
             "/review",
             "/review/**",
     };

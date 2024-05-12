@@ -102,4 +102,9 @@ public class JwtService {
         System.out.println(email);
         return (email.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
+
+//    public List<String> extractRoles(String token) {
+//        Claims claims = extractAllClaims(token);
+//        return claims.get("roles", List.class);
+//    }
 }
