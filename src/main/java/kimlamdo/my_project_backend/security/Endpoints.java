@@ -6,6 +6,8 @@ public class Endpoints {
     public static final String[] PUBLIC_GET_ENDPOINTS = {
             "/order",
             "/order/**",
+            "/order/search/findDistinctMonths",
+            "/order/search/findDistinctMonths/**",
             "/order-detail",
             "/order-detail/**",
             "/order-track",

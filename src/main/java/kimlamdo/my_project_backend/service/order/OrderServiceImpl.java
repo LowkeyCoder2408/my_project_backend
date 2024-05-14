@@ -10,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -208,5 +211,26 @@ public class OrderServiceImpl implements OrderService {
 
     private String formatStringByJson(String json) {
         return json.replaceAll("\"", "");
+    }
+
+    @Override
+    public List<Integer> getDistinctOrderMonths() {
+        return orderRepository.findDistinctMonths();
+    }
+
+    @Override
+    public Map<OrderStatus, Double> calculateOrderPercentageByStatus() {
+        List<Object[]> counts = orderRepository.countOrdersByStatus();
+        long totalOrders = counts.stream().mapToLong(c -> (long) c[1]).sum();
+
+        Map<OrderStatus, Double> percentages = new HashMap<>();
+        for (Object[] count : counts) {
+            OrderStatus status = (OrderStatus) count[0];
+            long countByStatus = (long) count[1];
+            double percentage = (double) countByStatus / totalOrders * 100;
+            percentages.put(status, percentage);
+        }
+
+        return percentages;
     }
 }
