@@ -19,7 +19,8 @@ public class Brand {
     @Column(nullable = false, length = 45, unique = true)
     private String name;
 
-    @Column(nullable = false, length = 128)
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
+    @Lob
     private String logo;
 
     @ManyToMany(cascade = {

@@ -48,6 +48,13 @@ public enum OrderStatus {
         public String defaultDescription() {
             return "Đơn hàng đã được thanh toán";
         }
+    },
+
+    CANCELED {
+        @Override
+        public String defaultDescription() {
+            return "Sản phẩm đã bị hủy";
+        }
     };
 
     public abstract String defaultDescription();

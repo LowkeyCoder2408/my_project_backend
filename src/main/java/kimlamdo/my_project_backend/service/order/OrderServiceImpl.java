@@ -158,28 +158,37 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public ResponseEntity<?> update(JsonNode jsonData) {
-//        try {
-//            int idOrder = Integer.parseInt(formatStringByJson(String.valueOf(jsonData.get("idOrder"))));
-//            String status = formatStringByJson(String.valueOf(jsonData.get("status")));
-//            Optional<Order> order = orderRepository.findById(idOrder);
-//            order.get().setStatus(status);
-//
-//            // Lấy ra order detail
-//            if (status.equals("Bị huỷ")) {
-//                List<OrderDetail> orderDetailList = orderDetailRepository.findOrderDetailsByOrder(order.get());
+        try {
+            int orderId = Integer.parseInt(formatStringByJson(String.valueOf(jsonData.get("orderId"))));
+            String statusString = formatStringByJson(String.valueOf(jsonData.get("status")));
+            Optional<Order> order = orderRepository.findById(orderId);
+
+            if (order.isPresent()) {
+                OrderStatus status = OrderStatus.valueOf(statusString);
+                order.get().setStatus(status);
+                orderRepository.save(order.get());
+                OrderTrack orderTrack = new OrderTrack();
+                orderTrack.setNotes(order.get().getNote());
+                orderTrack.setStatus(status);
+                orderTrack.setUpdatedTime(LocalDateTime.now());
+                orderTrack.setOrder(order.get());
+                orderTrackRepository.save(orderTrack);
+            }
+
+//            Lấy ra order detail
+//            if (statusString.equals("CALCELED")) {
+//                List<OrderDetail> orderDetailList = orderDetailRepository.findOrderDetailByOrder(order.get());
 //                for (OrderDetail orderDetail : orderDetailList) {
-//                    Book bookOrderDetail = orderDetail.getBook();
-//                    bookOrderDetail.setSoldQuantity(bookOrderDetail.getSoldQuantity() - orderDetail.getQuantity());
-//                    bookOrderDetail.setQuantity(bookOrderDetail.getQuantity() + orderDetail.getQuantity());
-//                    bookRepository.save(bookOrderDetail);
+//                    Product productOrderDetail = orderDetail.getProduct();
+//                    productOrderDetail.setSoldQuantity(productOrderDetail.getSoldQuantity() - orderDetail.getQuantity());
+//                    productOrderDetail.setQuantity(productOrderDetail.getQuantity() + orderDetail.getQuantity());
+//                    productRepository.save(productOrderDetail);
 //                }
 //            }
-//
-//            orderRepository.save(order.get());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseEntity.badRequest().build();
-//        }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok().build();
     }
 

@@ -44,6 +44,8 @@ public class Endpoints {
             "/user/**",
             "/favorite-product",
             "/favorite-product/**",
+            "/product-image",
+            "/product-image/**",
     };
 
     public static final String[] PUBLIC_POST_ENDPOINTS = {
@@ -60,6 +62,10 @@ public class Endpoints {
             "/review",
             "/favorite-product",
             "/favorite-product/**",
+            "/product/**",
+            "/product",
+            "/product-image",
+            "/product-image/**",
     };
 
     public static final String[] PUBLIC_PUT_ENDPOINTS = {
@@ -67,6 +73,10 @@ public class Endpoints {
             "/cart-item/**",
             "/review/**",
             "/review",
+            "/product/**",
+            "/product",
+            "/order",
+            "/order/**",
     };
 
     public static final String[] PUBLIC_DELETE_ENDPOINTS = {
@@ -76,6 +86,8 @@ public class Endpoints {
             "/review/**",
             "/favorite-product",
             "/favorite-product/**",
+            "/product",
+            "/product/**",
     };
 
     public static final String[] ADMIN_ENDPOINTS = {

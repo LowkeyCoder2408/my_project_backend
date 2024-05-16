@@ -1,5 +1,6 @@
 package kimlamdo.my_project_backend.service.product;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
@@ -10,10 +11,16 @@ import kimlamdo.my_project_backend.dao.ProductRepository;
 import kimlamdo.my_project_backend.entity.Brand;
 import kimlamdo.my_project_backend.entity.Category;
 import kimlamdo.my_project_backend.entity.Product;
+import kimlamdo.my_project_backend.entity.ProductImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,6 +38,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductImageRepository productImageRepository;
+
 
     public ProductServiceImpl(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
@@ -53,111 +61,163 @@ public class ProductServiceImpl implements ProductService {
             Optional<Brand> brandOptional = Optional.ofNullable(brandRepository.findById(brandId));
             brandOptional.ifPresent(product::setBrand);
 
-            // Lưu tạm thời
-            Product newProduct = productRepository.save(product);
+            // Lưu tên sản phẩm
+            String productName = objectMapper.treeToValue(productJson.get("name"), String.class);
+            product.setName(normalizeWhitespace(productName));
+
+            // Lưu alias
+            String productAlias = convertToSlug(product.getName());
+            product.setAlias(productAlias);
+
+            // Cập nhật thời gian
+            product.setUpdatedTime(LocalDateTime.now());
+
+            // Tính giá hiện tại dựa trên giá niêm yết và phần trăm giảm giá
+            int productListedPrice = objectMapper.treeToValue(productJson.get("listedPrice"), Integer.class);
+            int productDiscountPercent = objectMapper.treeToValue(productJson.get("discountPercent"), Integer.class);
+            product.setCurrentPrice(productListedPrice - productListedPrice * productDiscountPercent / 100);
+
+            // Đặt trạng thái sản phẩm là enabled
+            product.setEnabled(true);
+
+            // Lưu hình ảnh chính nếu có
+            String mainImageBase64 = objectMapper.treeToValue(productJson.get("mainImage"), String.class);
+            if (mainImageBase64 != null && !mainImageBase64.isEmpty()) {
+                product.setMainImage(mainImageBase64);
+            }
+
+            // Lưu hình ảnh liên quan nếu có
+            JsonNode relatedImagesNode = productJson.get("relatedImages");
+            if (relatedImagesNode != null && relatedImagesNode.isArray()) {
+                // Xóa các hình ảnh liên quan cũ trước khi thêm mới
+                productImageRepository.deleteByProduct(product);
+
+                // Lặp qua mảng relatedImagesNode
+                for (JsonNode imageNode : relatedImagesNode) {
+                    String relatedImageBase64 = objectMapper.treeToValue(imageNode, String.class);
+
+                    // Tạo một đối tượng ProductImage mới
+                    ProductImage productImage = new ProductImage();
+                    productImage.setProduct(product);
+                    productImage.setUrl(relatedImageBase64);
+                    productImage.setName(product.getName());
+
+                    System.out.println(productImage.getUrl().getClass());
+
+                    // Lưu đối tượng ProductImage vào ProductImageRepository
+                    productImageRepository.save(productImage);
+                }
+            }
+
+            // Lưu sản phẩm
+            productRepository.save(product);
             return ResponseEntity.ok("Thành công!");
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }
 
-    @Override
-    public ResponseEntity<?> update(JsonNode productJson) {
-        return null;
-    }
+    @PutMapping("/update-product")
+    public ResponseEntity<?> update(@RequestBody JsonNode productJson) {
+        try {
+            // Chuyển đổi một đối tượng JSON thành một đối tượng Java dựa trên mô hình của lớp Product
+            Product product = objectMapper.treeToValue(productJson, Product.class);
 
-//    @Override
-//    @Transactional
-//    public ResponseEntity<?> update(JsonNode bookJson) {
-//        try {
-//            Book book = objectMapper.treeToValue(bookJson, Book.class);
-//            List<Image> imagesList = imageRepository.findImagesByBook(book);
-//
-//            // Lưu thể loại của sách
-//            List<Integer> idGenreList = objectMapper.readValue(bookJson.get("idGenres").traverse(), new TypeReference<List<Integer>>() {
-//            });
-//            List<Genre> genreList = new ArrayList<>();
-//            for (int idGenre : idGenreList) {
-//                Optional<Genre> genre = genreRepository.findById(idGenre);
-//                genreList.add(genre.get());
-//            }
-//            book.setListGenres(genreList);
-//
-//            // Kiểm tra xem thumbnail có thay đổi không
-//            String dataThumbnail = formatStringByJson(String.valueOf((bookJson.get("thumbnail"))));
-//            if (Base64ToMultipartFileConverter.isBase64(dataThumbnail)) {
-//                for (Image image : imagesList) {
-//                    if (image.isThumbnail()) {
-////                        image.setDataImage(dataThumbnail);
-//                        MultipartFile multipartFile = Base64ToMultipartFileConverter.convert(dataThumbnail);
-//                        String thumbnailUrl = uploadImageService.uploadImage(multipartFile, "Book_" + book.getIdBook());
-//                        image.setUrlImage(thumbnailUrl);
-//                        imageRepository.save(image);
-//                        break;
-//                    }
-//                }
-//            }
-//
-//            Book newBook = bookRepository.save(book);
-//
-//            // Kiểm tra ảnh có liên quan
-//            List<String> arrDataRelatedImg = objectMapper.readValue(bookJson.get("relatedImg").traverse(), new TypeReference<List<String>>() {
-//            });
-//
-//            // Xem có xoá tất ở bên FE không
-//            boolean isCheckDelete = true;
-//
-//            for (String img : arrDataRelatedImg) {
-//                if (!Base64ToMultipartFileConverter.isBase64(img)) {
-//                    isCheckDelete = false;
-//                }
-//            }
-//
-//            // Nếu xoá hết tất cả
-//            if (isCheckDelete) {
-//                imageRepository.deleteImagesWithFalseThumbnailByBookId(newBook.getIdBook());
-//                Image thumbnailTemp = imagesList.get(0);
-//                imagesList.clear();
-//                imagesList.add(thumbnailTemp);
-//                for (int i = 0; i < arrDataRelatedImg.size(); i++) {
-//                    String img = arrDataRelatedImg.get(i);
-//                    Image image = new Image();
-//                    image.setBook(newBook);
-////                    image.setDataImage(img);
-//                    image.setThumbnail(false);
-//                    MultipartFile relatedImgFile = Base64ToMultipartFileConverter.convert(img);
-//                    String imgURL = uploadImageService.uploadImage(relatedImgFile, "Book_" + newBook.getIdBook() + "." + i);
-//                    image.setUrlImage(imgURL);
-//                    imagesList.add(image);
-//                }
-//            } else {
-//                // Nếu không xoá hết tất cả (Giữ nguyên ảnh hoặc thêm ảnh vào)
-//                for (int i = 0; i < arrDataRelatedImg.size(); i++) {
-//                    String img = arrDataRelatedImg.get(i);
-//                    if (Base64ToMultipartFileConverter.isBase64(img)) {
-//                        Image image = new Image();
-//                        image.setBook(newBook);
-////                        image.setDataImage(img);
-//                        image.setThumbnail(false);
-//                        MultipartFile relatedImgFile = Base64ToMultipartFileConverter.convert(img);
-//                        String imgURL = uploadImageService.uploadImage(relatedImgFile, "Book_" + newBook.getIdBook() + "." + i);
-//                        image.setUrlImage(imgURL);
-//                        imageRepository.save(image);
-//                    }
-//                }
-//            }
-//
-//            newBook.setListImages(imagesList);
-//            // Cập nhật lại ảnh
-//            bookRepository.save(newBook);
-//
-//            return ResponseEntity.ok("Success!");
-//        } catch (Exception e) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//    }
+            // Lưu danh mục của sản phẩm
+            int categoryId = objectMapper.treeToValue(productJson.get("categoryId"), Integer.class);
+            Optional<Category> categoryOptional = Optional.ofNullable(categoryRepository.findById(categoryId));
+            categoryOptional.ifPresent(product::setCategory);
+
+            // Lưu thương hiệu của sản phẩm
+            int brandId = objectMapper.treeToValue(productJson.get("brandId"), Integer.class);
+            Optional<Brand> brandOptional = Optional.ofNullable(brandRepository.findById(brandId));
+            brandOptional.ifPresent(product::setBrand);
+
+            // Lưu tên sản phẩm
+            String productName = objectMapper.treeToValue(productJson.get("name"), String.class);
+            product.setName(normalizeWhitespace(productName));
+
+            // Lưu alias
+            String productAlias = convertToSlug(product.getName());
+            product.setAlias(productAlias);
+
+            // Cập nhật thời gian
+            product.setUpdatedTime(LocalDateTime.now());
+
+            // Tính giá hiện tại dựa trên giá niêm yết và phần trăm giảm giá
+            int productListedPrice = objectMapper.treeToValue(productJson.get("listedPrice"), Integer.class);
+            int productDiscountPercent = objectMapper.treeToValue(productJson.get("discountPercent"), Integer.class);
+            product.setCurrentPrice(productListedPrice - productListedPrice * productDiscountPercent / 100);
+
+            // Đặt trạng thái sản phẩm là enabled
+            product.setEnabled(true);
+
+            // Lưu hình ảnh chính nếu có
+            String mainImageBase64 = objectMapper.treeToValue(productJson.get("mainImage"), String.class);
+            if (mainImageBase64 != null && !mainImageBase64.isEmpty()) {
+                product.setMainImage(mainImageBase64);
+            }
+
+            // Lưu hình ảnh liên quan nếu có
+//            List<String> relatedImagesData = objectMapper.readValue(productJson.get("relatedImages").traverse(), new TypeReference<List<String>>() {});
+
+            JsonNode relatedImagesNode = productJson.get("relatedImages");
+            if (relatedImagesNode != null && relatedImagesNode.isArray()) {
+                // Xóa các hình ảnh liên quan cũ trước khi thêm mới
+                productImageRepository.deleteByProduct(product);
+
+                // Lặp qua mảng relatedImagesNode
+                for (JsonNode imageNode : relatedImagesNode) {
+                    String relatedImageBase64 = objectMapper.treeToValue(imageNode, String.class);
+
+                    // Tạo một đối tượng ProductImage mới
+                    ProductImage productImage = new ProductImage();
+                    productImage.setProduct(product);
+                    productImage.setUrl(relatedImageBase64);
+                    productImage.setName(product.getName());
+
+                    System.out.println(productImage.getUrl().getClass());
+
+                    // Lưu đối tượng ProductImage vào ProductImageRepository
+                    productImageRepository.save(productImage);
+                }
+            }
+
+            // Lưu sản phẩm
+            productRepository.save(product);
+
+            return ResponseEntity.ok("Thành công!");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Đã xảy ra lỗi: " + e.getMessage());
+        }
+    }
 
     private String formatStringByJson(String json) {
         return json.replaceAll("\"", "");
+    }
+
+    public static String normalizeWhitespace(String input) {
+        // Kiểm tra xem chuỗi có rỗng hoặc null không
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+
+        // Loại bỏ khoảng trắng đầu và cuối
+        String trimmed = input.trim();
+
+        // Thay thế nhiều khoảng trắng liên tiếp bằng một khoảng trắng
+        String normalized = trimmed.replaceAll("\\s+", " ");
+
+        return normalized;
+    }
+
+    public static String convertToSlug(String input) {
+        // Chuyển tất cả các ký tự trong chuỗi sang chữ thường
+        String lowercased = input.toLowerCase();
+        // Thay thế tất cả các khoảng trắng bằng dấu gạch ngang
+        String slug = lowercased.replace(" ", "-");
+
+        slug = slug.replaceAll("/", " ");
+        return slug;
     }
 }

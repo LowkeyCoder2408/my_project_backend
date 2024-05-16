@@ -27,7 +27,8 @@ public class Customer {
     @Column(name = "phone_number", nullable = false, length = 15)
     private String phoneNumber;
 
-    @Column(name = "avatar")
+    @Column(name = "avatar", columnDefinition = "LONGTEXT")
+    @Lob
     private String avatar;
 
     @Column(name = "verification_code", length = 64)

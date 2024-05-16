@@ -3,6 +3,7 @@ package kimlamdo.my_project_backend.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Data
@@ -22,14 +23,14 @@ public class Product {
     @Column(nullable = false, name = "short_description", columnDefinition = "TEXT")
     private String shortDescription;
 
-    @Column(nullable = false, name = "full_description", columnDefinition = "TEXT")
+    @Column(name = "full_description", columnDefinition = "TEXT")
     private String fullDescription;
 
     @Column(name = "created_time")
-    private Date createdTime;
+    private LocalDateTime createdTime;
 
     @Column(name = "updated_time")
-    private Date updatedTime;
+    private LocalDateTime updatedTime;
 
     private boolean enabled;
 
@@ -60,7 +61,8 @@ public class Product {
     @Column(name = "operating_system")
     private String operatingSystem;
 
-    @Column(name = "main_image", nullable = false)
+    @Column(name = "main_image", nullable = false, columnDefinition = "LONGTEXT")
+    @Lob
     private String mainImage;
 
     @ManyToOne(cascade = {

@@ -30,7 +30,8 @@ public class User {
     @Column(name = "phone_number", length = 12, nullable = false)
     private String phoneNumber;
 
-    @Column(length = 100)
+    @Column(columnDefinition = "LONGTEXT")
+    @Lob
     private String photos;
 
     private boolean enabled;

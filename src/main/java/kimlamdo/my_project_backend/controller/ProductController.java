@@ -22,7 +22,6 @@ public class ProductController {
             return productService.save(jsonData);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Đã xảy ra lỗi");
             return ResponseEntity.badRequest().build();
         }
     }
@@ -33,7 +32,6 @@ public class ProductController {
             return productService.update(jsonData);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Đã xảy ra lỗi");
             return ResponseEntity.badRequest().build();
         }
     }

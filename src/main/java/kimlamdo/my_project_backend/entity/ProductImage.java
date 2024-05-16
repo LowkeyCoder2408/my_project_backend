@@ -3,6 +3,8 @@ package kimlamdo.my_project_backend.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Optional;
+
 @Data
 @Entity
 @Table(name = "product_image")
@@ -14,7 +16,8 @@ public class ProductImage {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
+    @Lob
     private String url;
 
     @ManyToOne

@@ -19,7 +19,8 @@ public class Category {
     @Column(length = 128, nullable = false, unique = true)
     private String name;
 
-    @Column(length = 128, nullable = false)
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
+    @Lob
     private String image;
 
     private boolean enabled;
